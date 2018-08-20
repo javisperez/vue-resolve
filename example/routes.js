@@ -20,7 +20,7 @@ export default [
                 component: users,
                 meta: {
                     resolve: {
-                        users: _ => axios.get(`https://reqres.in/api/users`)
+                        users: _ => axios.get('https://reqres.in/api/users')
                     }
                 }
             },
