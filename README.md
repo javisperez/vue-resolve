@@ -6,6 +6,10 @@ A VueJS (2.x) / Vue-router plugin that resolves dependencies for routes before e
 
 A plugin that reads a `meta.resolve` property on your component's route and resolve it (as a promise) before serving the route.
 
+**Code Sandbox example**
+
+https://codesandbox.io/s/wk2k671jyl
+
 ## Install
 
 Install from npm:
