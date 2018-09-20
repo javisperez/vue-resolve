@@ -5,7 +5,6 @@ import VueResolve from '../src/resolve';
 import routes from './routes';
 
 Vue.use(VueRouter);
-Vue.use(VueResolve);
 
 const router = new VueRouter({
     routes,
@@ -13,6 +12,11 @@ const router = new VueRouter({
     scrollBehavior() {
         return { x: 0, y: 0 };
     }
+});
+
+Vue.use(VueResolve, {
+    router,
+    dataProperty: 'data',
 });
 
 new Vue({

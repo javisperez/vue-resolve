@@ -30,10 +30,10 @@ export default [
                 component: user,
                 meta: {
                     resolve: {
-                        data: id => new Promise((resolve) => {
+                        user: id => new Promise((resolve) => {
                             axios.get(`https://reqres.in/api/users/${id}`)
-                                .then((response) => {
-                                    resolve(response.data);
+                                .then(({ data }) => {
+                                    resolve(data);
                                 });
                         }),
                     },

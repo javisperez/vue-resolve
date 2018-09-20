@@ -10,7 +10,7 @@ export default {
 
     data() {
         return {
-            data: {},
+            user: {},
         };
     },
 }
@@ -18,18 +18,15 @@ export default {
 
 <template>
 <div>
-    <h2>User ID: {{ data.id }}</h2>
+    <h2>Viewing User with ID: {{ user.id }}</h2>
 
-    <p>
-        <img :src="data.avatar">
-    </p>
-
-    <p>
-        <strong>First name:</strong> {{ data.first_name }}
-    </p>
-
-    <p>
-        <strong>Last name:</strong> {{ data.last_name }}
-    </p>
+    <user-card :data="user"></user-card>
 </div>
 </template>
+
+<style lang="scss" scoped>
+.user-card-component {
+    max-width: 200px;
+    text-align: center;
+}
+</style>

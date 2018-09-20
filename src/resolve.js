@@ -10,17 +10,23 @@
  * http://github.com/javisperez/vue-resolve
  */
 export default {
-    install(Vue) {
-        /**
-         * Resolve all the dependencies from then given route object
-         * @param {object} route The route object from vue-router
-         */
-        const resolveRoute = (route) => {
-            if (!route.meta.resolve) {
-                console.error('There\'s nothing to resolve');
-                return Promise.resolve([]);
-            }
+    install(Vue, options = {}) {
+        const defaults = {
+            dataProperty: 'data',
+        };
 
+        const userOptions = {
+            ...defaults,
+            ...options,
+        };
+
+        const { router } = userOptions;
+
+        if (!router) {
+            throw new Error('Vue-resolve needs an instance of the router object.');
+        }
+
+        const resolveRoute = (route) => {
             /**
              * Store all promises that needs to be resolved
              * @type Array
@@ -35,64 +41,51 @@ export default {
             return Promise.all(promises);
         };
 
-        Vue.mixin({
-            // Before entering any route, resolve any given dependency
-            beforeRouteEnter(to, from, next) {
-                // If there's nothing to resolve, continue;
-                if (!to.meta.resolve) {
-                    next();
-                    return;
+        const populate = (vm, keys, data) => {
+            // And populate the component with it
+            for (const index in keys) {
+                const key = keys[index];
+                let value = data[index];
+
+                if (userOptions.dataProperty) {
+                    value = value[userOptions.dataProperty];
                 }
 
-                // Resolve all the dependencies
-                resolveRoute(to)
-                    .then((responses) => {
-                        // And after that, redirect to the route
-                        next((vm) => {
-                            // Get all the keys on the dependencies
-                            const keys = Object.keys(to.meta.resolve);
-
-                            // And populate the component with it
-                            for (const index in keys) {
-                                const key = keys[index];
-                                vm[key] = responses[index].data;
-                            }
-
-                            // And execute any `resolved` callback
-                            if (vm.$options.resolved) {
-                                vm.$options.resolved.call(vm);
-                            }
-                        });
-                    })
-                    .catch((responses) => {
-                        console.error(responses);
-                    });
-            },
-
-            methods: {
-                /**
-                 * Re-resolve the dependencies for the current route
-                 */
-                $resolve() {
-                    if (!this.$route.meta.resolve) {
-                        return;
-                    }
-
-                    resolveRoute(this.$route)
-                        .then((responses) => {
-                            // Re-populate the data
-                            const keys = Object.keys(this.$route.meta.resolve);
-
-                            for (const index in keys) {
-                                const key = keys[index];
-                                this[key] = responses[index].data;
-                            }
-                        })
-                        .catch((responses) => {
-                            console.error(responses);
-                        });
-                }
+                vm[key] = value;
             }
+        }
+
+        router.beforeEach((to, from, next) => {
+            if (!to.meta || !to.meta.resolve) {
+                return next();
+            }
+
+            resolveRoute(to)
+                .then((responses) => {
+                    next();
+
+                    Vue.nextTick(() => {
+                        let component = null;
+
+                        for (const match of to.matched) {
+                            if (match.meta !== to.meta) {
+                                continue;
+                            }
+
+                            component = match.instances.default;
+
+                            populate(component, Object.keys(to.meta.resolve), responses);
+
+                        }
+
+                        if (component.$options.resolved) {
+                            component.$options.resolved();
+                        }
+                    });
+                })
+                .catch((responses) => {
+                    console.error(responses);
+                });;
         });
     }
 };
