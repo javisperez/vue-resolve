@@ -23,8 +23,6 @@ yarn add vue-resolve
 ...
 import VueResolve from 'vue-resolve';
 
-Vue.use(VueResolve);
-
 const router = new VueRouter({
     routes: [{
         path: '/',
@@ -37,6 +35,11 @@ const router = new VueRouter({
             }
         }
     }]
+});
+
+Vue.use(VueResolve, {
+    router,
+    dataProperty: 'data',
 });
 
 new Vue({
