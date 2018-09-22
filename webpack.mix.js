@@ -23,18 +23,19 @@ mix
         }
     });
 
-// And now the app tasks
+// Build the plugin
 mix
+    .js('./src/resolve.js', 'dist/resolve.js');
 
+// And now the example
+mix
     .autoload({})
 
-    // Copy html
     .copy('./example/index.html', 'public/index.html')
 
-    // Compile JS
     .js('./example/index.js', 'public/js/app.js')
 
-    // And browsersync as dev server
+    // And browser-sync as dev server
     .browserSync({
         proxy: false,
         server: {
@@ -45,4 +46,4 @@ mix
         ui: false
     })
 
-    .sourceMaps();
+    .sourceMaps(false);

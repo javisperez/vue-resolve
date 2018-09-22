@@ -1,8 +1,8 @@
 {
   "name": "vue-resolve",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
-  "main": "src/resolve.js",
+  "main": "dist/resolve.js",
   "author": "Javis Pérez",
   "license": "ISC",
   "scripts": {

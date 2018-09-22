@@ -1,4 +1,5 @@
 {
     "/public/js/app.js": "/public/js/app.js",
+    "/dist/resolve.js": "/dist/resolve.js",
     "/public/index.html": "/public/index.html"
 }
