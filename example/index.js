@@ -1,6 +1,6 @@
 import Vue from 'vue/dist/vue';
 import VueRouter from 'vue-router';
-import VueResolve from '../src/resolve';
+import VueResolve from '../dist/resolve';
 
 import routes from './routes';
 

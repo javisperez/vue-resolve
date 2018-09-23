@@ -42,4 +42,4 @@ mix
         ui: false
     })
 
-    .sourceMaps(false);
+    .sourceMaps();
