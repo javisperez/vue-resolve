@@ -23,10 +23,6 @@ mix
         }
     });
 
-// Build the plugin
-mix
-    .js('./src/resolve.js', 'dist/resolve.js');
-
 // And now the example
 mix
     .autoload({})
