@@ -114,7 +114,7 @@ export default {
 
                         // Run any `resolved` option on the component
                         if (component.$options.resolved) {
-                            component.$options.resolved();
+                            component.$options.resolved.bind(component)();
                         }
                     });
                 })
