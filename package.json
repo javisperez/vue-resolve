@@ -9,7 +9,7 @@
     "dev": "NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "hot": "NODE_ENV=development webpack-dev-server --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "build": "babel src/resolve.js --out-file dist/resolve.js",
+    "build": "mkdir -p dist && touch dist/resolve.js && babel src/resolve.js --out-file dist/resolve.js",
     "build:example": "npm run build && NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
     "publish": "npm run build && npm publish"
   },
